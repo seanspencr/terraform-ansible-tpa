@@ -172,12 +172,12 @@ resource "null_resource" "testing_ansible" {
 # }
 
 
-resource "null_resource" "ansible_playbook" {
-    depends_on = [null_resource.testing_ansible]
-    provisioner "local-exec" {
-        command = "sleep 180;ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./inventory.ini playbook-create-k8s-cluster.yml -u ${var.ci_user} --private-key=${var.ci_ssh_private_key}"
-    }
-}
+# resource "null_resource" "ansible_playbook" {
+#     depends_on = [null_resource.testing_ansible]
+#     provisioner "local-exec" {
+#         command = "sleep 180;ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./inventory.ini playbook-create-k8s-cluster.yml -u ${var.ci_user} --private-key=${var.ci_ssh_private_key}"
+#     }
+# }
 
 
 

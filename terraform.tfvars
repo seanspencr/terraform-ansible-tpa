@@ -1,7 +1,7 @@
 # API proxmox
 proxmox_api_url ="http://192.168.61.131:8006/api2/json"
-proxmox_api_token_id = "~/terraform-ansible-tpa/creds/username.txt"
-proxmox_api_token_secret = "~/terraform-ansible-tpa/creds/secret-token.txt"
+proxmox_api_token_id = "root@pam!testing"
+proxmox_api_token_secret = "40a2b613-401f-4659-ae11-aa2c461afd24"
 
 # cloud-init configuration
 ci_user = "demo"

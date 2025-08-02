@@ -12,8 +12,8 @@ terraform {
 provider "proxmox" {
   # Configuration options
   pm_api_url = var.proxmox_api_url
-  pm_api_token_id = var.proxmox_api_token_id
-  pm_api_token_secret = var.proxmox_api_token_secret
+  pm_api_token_id = file(var.proxmox_api_token_id)
+  pm_api_token_secret = file(var.proxmox_api_token_secret)
   pm_tls_insecure = true #karena ssl nya masi blm sedcure (http)
 }
 
@@ -21,9 +21,9 @@ provider "proxmox" {
 
 resource "proxmox_vm_qemu" "k8s-master" {
   name        = "k8s-master"
-  target_node = "pve"
+  target_node = "prk1"
   vmid       = 300
-  clone      = "ubuntu-jammy2"
+  clone      = "template"
   full_clone = true
 
   ciuser    = var.ci_user
@@ -61,7 +61,7 @@ resource "proxmox_vm_qemu" "k8s-master" {
   }
 
   boot     = "order=scsi0"
-  ipconfig0 = "ip=192.168.61.169/24,gw=192.168.61.131" #gatewaynya ip proxmox
+  ipconfig0 = "ip=192.168.2.201/24,gw=192.168.2.69" #gatewaynya ip proxmox
   # ipconfig0 = "ip=dhcp"
   
   lifecycle {
@@ -74,9 +74,9 @@ resource "proxmox_vm_qemu" "k8s-master" {
 resource "proxmox_vm_qemu" "k8s-workers" {
   count       = var.vm_count
   name        = "k8s-worker-${count.index + 1}"
-  target_node = "pve"
+  target_node = "prk2"
   vmid        = 301 + count.index
-  clone       = "ubuntu-jammy2"
+  clone       = "template"
   full_clone  = true
 
   ciuser    = var.ci_user
@@ -114,7 +114,7 @@ resource "proxmox_vm_qemu" "k8s-workers" {
   }
 
   boot     = "order=scsi0"
-  ipconfig0 = "ip=192.168.61.${count.index + 170}/24,gw=192.168.61.131"
+  ipconfig0 = "ip=192.168.3.${count.index + 201}/24,gw=192.168.3.69"
   # ipconfig0 = "ip=dhcp"
   
   lifecycle {

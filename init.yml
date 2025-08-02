@@ -1,0 +1,19 @@
+---
+- name: Create a hello world file
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure /home/temp directory exists
+      file:
+        path: /home/temp
+        state: directory
+        owner: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Write "Hello, world!" to /home/temp/hello_world.txt
+      copy:
+        content: "Hello, world!\n"
+        dest: "/home/temp/hello_world.txt"
+        owner: "{{ ansible_user }}"
+        mode: '0644'
